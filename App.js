@@ -9,9 +9,16 @@ import {
     Platform,
     StyleSheet,
     Text,
-    View
+    View,
+    Button
 } from 'react-native';
 import OneSignal from 'react-native-onesignal';
+import {
+    AdMobBanner,
+    AdMobInterstitial,
+    PublisherBanner,
+    AdMobRewarded,
+} from 'react-native-admob';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' +
@@ -52,7 +59,13 @@ export default class App extends Component<{}> {
 
     onIds(device) {
         console.log('Device info: ', device);
-    }   
+    }
+
+    showAd(){
+        AdMobInterstitial.setAdUnitID('ca-app-pub-9331425544825696~4983237756');
+        AdMobInterstitial.setTestDevices(['ZY223T7NXR']);
+        AdMobInterstitial.requestAd().then(() => AdMobInterstitial.showAd());
+    }
 
     render() {
         return (
@@ -60,6 +73,13 @@ export default class App extends Component<{}> {
                 <Text style={styles.welcome}>
                     Welcome to React Native!
                 </Text>
+                <AdMobBanner
+                    adSize="fullBanner"
+                    adUnitID="ca-app-pub-9331425544825696/5091048966"
+                    testDevices={['ZY223T7NXR']}
+                    onAdFailedToLoad={error => console.error(error)}
+                />
+                <Button onPress={() => this.showAd()} title="Learn More" />
                 <Text style={styles.instructions}>
                     To get started, edit App.js
                 </Text>
